@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home · Jorge I. González Cázares | IIMAS – UNAM</title>
+  <meta name="description" content="Jorge I. González Cázares, Associate Researcher at IIMAS – UNAM. Probability, Lévy processes, stochastic simulation, machine learning, CV, and research videos.">
+
+  <!-- Google Fonts: Inter & Fraunces for Academic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- KaTeX for Proper LaTeX Math Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <!-- Custom Green Palette & Component Styling -->
+  <style>
+    :root {
+      --bg-page: #f0f7f3;
+      --bg-tinted: #e1f0e7;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f7fbf9;
+      --header-grad-start: #0b3324;
+      --header-grad-end: #17523b;
+      --primary: #166544;
+      --primary-dark: #0e442d;
+      --primary-light: #2b8a61;
+      --accent-mint: #52b788;
+      --accent-sage: #cfe5d8;
+      --text-main: #12291e;
+      --text-muted: #3f6251;
+      --border-green: #bdd8c8;
+      --gold-bg: #fef3c7;
+      --gold-text: #92400e;
+      --gold-border: #f59e0b;
+      --shadow-green: 0 10px 28px -6px rgba(14, 68, 45, 0.12), 0 4px 10px -3px rgba(14, 68, 45, 0.07);
+    }
+
+    body.dark-theme {
+      --bg-page: #0a1812;
+      --bg-tinted: #11261d;
+      --bg-card: #142c21;
+      --bg-card-hover: #1a382b;
+      --header-grad-start: #06130e;
+      --header-grad-end: #0e291e;
+      --primary: #52b788;
+      --primary-dark: #74c69d;
+      --primary-light: #40916c;
+      --accent-mint: #74c69d;
+      --accent-sage: #234736;
+      --text-main: #e8f5ee;
+      --text-muted: #a3c4b3;
+      --border-green: #264c3a;
+      --gold-bg: #3b2806;
+      --gold-text: #fcd34d;
+      --gold-border: #d97706;
+      --shadow-green: 0 10px 30px -6px rgba(0, 0, 0, 0.5);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    h1, h2, .serif-heading {
+      font-family: 'Fraunces', Georgia, serif;
+    }
+
+    /* Header Gradient & Sticky Nav */
+    .site-header {
+      background: linear-gradient(135deg, var(--header-grad-start) 0%, var(--header-grad-end) 100%);
+      border-bottom: 3px solid var(--accent-mint);
+      box-shadow: 0 4px 20px rgba(11, 51, 36, 0.22);
+    }
+
+    /* Navigation Drop-Down Menus */
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.35rem);
+      left: 0;
+      min-width: 250px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-green);
+      border-top: 3px solid var(--primary);
+      border-radius: 0.75rem;
+      box-shadow: var(--shadow-green);
+      padding: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu,
+    .nav-dropdown.open .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav-dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+    }
+
+    .nav-dropdown-item:hover {
+      background-color: var(--bg-tinted);
+      color: var(--primary);
+      padding-left: 1.05rem;
+    }
+
+    /* Cards & Surfaces */
+    .green-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-green);
+      border-radius: 0.85rem;
+      box-shadow: var(--shadow-green);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .green-card:hover {
+      border-color: var(--primary-light);
+    }
+
+    .green-tinted-box {
+      background-color: var(--bg-tinted);
+      border: 1px solid var(--border-green);
+      border-radius: 0.75rem;
+    }
+
+    /* Topic Pills (Aleks style upgraded in emerald) */
+    .topic-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.15rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-green);
+      border-left: 5px solid var(--primary);
+      border-radius: 0.75rem;
+      font-weight: 600;
+      color: var(--text-main);
+      box-shadow: var(--shadow-green);
+      transition: all 0.18s ease;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .topic-pill:hover, .topic-pill.active-topic {
+      background-color: var(--bg-tinted);
+      border-left-width: 8px;
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    /* Custom Select Drop-Down Styling */
+    .custom-select {
+      appearance: none;
+      background-color: var(--bg-card);
+      border: 1.5px solid var(--border-green);
+      color: var(--text-main);
+      padding: 0.55rem 2.5rem 0.55rem 0.95rem;
+      border-radius: 0.65rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23166544' stroke-width='2.2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.1rem;
+      box-shadow: 0 2px 6px rgba(14, 68, 45, 0.06);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .custom-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(43, 138, 97, 0.22);
+    }
+
+    /* Details / Summary Accordion Styling */
+    details.green-accordion {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-green);
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    details.green-accordion[open] {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-green);
+    }
+
+    details.green-accordion summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0.85rem 1.15rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-tinted);
+      color: var(--text-main);
+      transition: background-color 0.15s ease;
+      user-select: none;
+    }
+
+    details.green-accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.green-accordion summary:hover {
+      background-color: var(--accent-sage);
+    }
+
+    details.green-accordion .chevron {
+      transition: transform 0.22s ease;
+    }
+
+    details.green-accordion[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    /* Badges */
+    .badge-emerald {
+      background-color: var(--bg-tinted);
+      color: var(--primary);
+      border: 1px solid var(--border-green);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+
+    .badge-speaker {
+      background: linear-gradient(135deg, #166544 0%, #2b8a61 100%);
+      color: #ffffff;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-gold {
+      background-color: var(--gold-bg);
+      color: var(--gold-text);
+      border: 1px solid var(--gold-border);
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Primary & Secondary Buttons */
+    .btn-emerald {
+      background: linear-gradient(135deg, #166544 0%, #247a56 100%);
+      color: #ffffff;
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      box-shadow: 0 4px 12px rgba(22, 101, 68, 0.28);
+      transition: all 0.16s ease;
+      text-decoration: none;
+    }
+
+    .btn-emerald:hover {
+      background: linear-gradient(135deg, #0e442d 0%, #166544 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(22, 101, 68, 0.36);
+    }
+
+    .btn-sage {
+      background-color: var(--bg-tinted);
+      color: var(--primary);
+      border: 1.5px solid var(--border-green);
+      padding: 0.6rem 1.15rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.16s ease;
+      text-decoration: none;
+    }
+
+    .btn-sage:hover {
+      background-color: var(--accent-sage);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    /* KaTeX font size adjustment */
+    .katex {
+      font-size: 1.03em;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+  <!-- Skip to Content -->
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-900 focus:text-white focus:rounded-lg">
+    Skip to content
+  </a>
+
+  <!-- STICKY HEADER WITH DROP-DOWN MENUS (Aleks Format + Interactive Dropdowns) -->
+  <header class="site-header sticky top-0 z-50 text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand Identity -->
+      <a href="#main" class="group flex items-center gap-3 text-left focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-300/40 flex items-center justify-center text-emerald-200 font-bold text-lg shadow-inner group-hover:bg-emerald-500/30 transition">
+          JG
+        </div>
+        <div>
+          <strong class="block text-lg sm:text-xl font-bold tracking-tight text-white group-hover:text-emerald-200 transition">
+            Jorge I. González Cázares
+          </strong>
+          <span class="block text-xs sm:text-sm text-emerald-200/90 font-medium">
+            Probability, stochastic simulation &amp; data science · IIMAS–UNAM
+          </span>
+        </div>
+      </a>
+
+      <!-- Navigation Bar with Drop-Down Lists -->
+      <nav aria-label="Main navigation" class="flex flex-wrap items-center gap-1 sm:gap-2">
+        <a href="#main" class="px-3 py-2 rounded-lg text-sm font-semibold text-emerald-100 hover:text-white hover:bg-white/10 transition">
+          Home
+        </a>
+
+        <!-- Research Drop-Down List -->
+        <div class="nav-dropdown">
+          <button type="button" class="px-3 py-2 rounded-lg text-sm font-semibold text-emerald-100 hover:text-white hover:bg-white/10 transition inline-flex items-center gap-1" aria-expanded="false">
+            <span>Research</span>
+            <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 border-b border-emerald-100 dark:border-emerald-800/60 mb-1">
+              Navigate Research
+            </div>
+            <a href="#topics" class="nav-dropdown-item">
+              <span>Explore by Topic</span>
+              <span class="badge-emerald">9 areas</span>
+            </a>
+            <a href="#research" onclick="setPubCategory('published')" class="nav-dropdown-item">
+              <span>Published &amp; Accepted</span>
+              <span class="badge-emerald">19</span>
+            </a>
+            <a href="#research" onclick="setPubCategory('submitted')" class="nav-dropdown-item">
+              <span>Submitted Manuscripts</span>
+              <span class="badge-emerald">4</span>
+            </a>
+            <a href="#research" onclick="setPubCategory('progress')" class="nav-dropdown-item">
+              <span>Work in Progress</span>
+              <span class="badge-emerald">6</span>
+            </a>
+            <a href="#grants" class="nav-dropdown-item">
+              <span>Scientific Grants</span>
+              <span class="badge-emerald">3</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Videos Drop-Down List -->
+        <div class="nav-dropdown">
+          <button type="button" class="px-3 py-2 rounded-lg text-sm font-semibold text-emerald-100 hover:text-white hover:bg-white/10 transition inline-flex items-center gap-1" aria-expanded="false">
+            <span>Videos</span>
+            <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 border-b border-emerald-100 dark:border-emerald-800/60 mb-1">
+              Coauthored YouTube Talks
+            </div>
+            <a href="#videos" onclick="filterVideosByDropdown('all', 'all')" class="nav-dropdown-item">
+              <span>All Coauthored Videos</span>
+              <span class="badge-emerald">16 videos</span>
+            </a>
+            <a href="#videos" onclick="filterVideosByDropdown('all', 'jorge')" class="nav-dropdown-item">
+              <span>Presented by Jorge</span>
+              <span class="badge-emerald">5 talks</span>
+            </a>
+            <a href="#videos" onclick="filterVideosByDropdown('simulation', 'all')" class="nav-dropdown-item">
+              <span>Exact &amp; Monte Carlo Simulation</span>
+              <span>→</span>
+            </a>
+            <a href="#videos" onclick="filterVideosByDropdown('convex', 'all')" class="nav-dropdown-item">
+              <span>Convex Hulls &amp; Minorants</span>
+              <span>→</span>
+            </a>
+            <a href="#videos" onclick="filterVideosByDropdown('couplings', 'all')" class="nav-dropdown-item">
+              <span>CLTs, Couplings &amp; Densities</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- CV & Experience Drop-Down List -->
+        <div class="nav-dropdown">
+          <button type="button" class="px-3 py-2 rounded-lg text-sm font-semibold text-emerald-100 hover:text-white hover:bg-white/10 transition inline-flex items-center gap-1" aria-expanded="false">
+            <span>CV &amp; Talks</span>
+            <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 border-b border-emerald-100 dark:border-emerald-800/60 mb-1">
+              Curriculum Vitae
+            </div>
+            <a href="#cv" class="nav-dropdown-item">
+              <span>Appointments &amp; Education</span>
+              <span>→</span>
+            </a>
+            <a href="#awards" class="nav-dropdown-item">
+              <span>Medals &amp; Olympiad Honours</span>
+              <span class="badge-gold">8 Awards</span>
+            </a>
+            <a href="#talks" onclick="switchActivityTab('conferences')" class="nav-dropdown-item">
+              <span>Conferences &amp; Workshops</span>
+              <span>2019–2026</span>
+            </a>
+            <a href="#talks" onclick="switchActivityTab('seminars')" class="nav-dropdown-item">
+              <span>Invited Seminars</span>
+              <span>2019–2026</span>
+            </a>
+            <a href="#talks" onclick="switchActivityTab('visits')" class="nav-dropdown-item">
+              <span>Research Visits</span>
+              <span>10 visits</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Teaching & Service Drop-Down List -->
+        <div class="nav-dropdown">
+          <button type="button" class="px-3 py-2 rounded-lg text-sm font-semibold text-emerald-100 hover:text-white hover:bg-white/10 transition inline-flex items-center gap-1" aria-expanded="false">
+            <span>Teaching</span>
+            <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <div class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 border-b border-emerald-100 dark:border-emerald-800/60 mb-1">
+              Teaching &amp; Service
+            </div>
+            <a href="#teaching" class="nav-dropdown-item">
+              <span>Graduate &amp; Undergrad Courses</span>
+              <span>UNAM</span>
+            </a>
+            <a href="#teaching" class="nav-dropdown-item">
+              <span>Data Science Diplomados</span>
+              <span>Coordinator</span>
+            </a>
+            <a href="#teaching" class="nav-dropdown-item">
+              <span>Thesis Supervision &amp; Jury</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Theme Switcher Button (Sage Light / Forest Dark) -->
+        <button id="themeToggleBtn" type="button" onclick="toggleTheme()" class="ml-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/50 hover:bg-emerald-950/80 border border-emerald-400/40 text-emerald-100 flex items-center gap-1.5 transition" title="Switch between Sage Light and Forest Dark palette">
+          <span id="themeIcon">🌿</span>
+          <span id="themeLabel" class="hidden sm:inline">Forest Dark</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-14">
+
+    <!-- HERO SECTION (Aleksandar Mijatović Two-Column Format with Rich Green Styling) -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Column: Bio, Actions, Contact & Research in Conversation -->
+      <div class="lg:col-span-8 space-y-6">
+        <div class="green-card p-6 sm:p-8 border-t-4 border-t-emerald-700">
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="badge-emerald">IIMAS – UNAM</span>
+            <span class="badge-emerald">SNII Candidate</span>
+            <span class="badge-gold">Harrison Award · Alfonso Caso &amp; Gabino Barreda Medals</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-2" style="color: var(--text-main);">
+            Jorge I. González Cázares
+          </h1>
+
+          <p class="text-lg sm:text-xl font-medium mb-5" style="color: var(--text-muted);">
+            Associate Researcher ‘C’ (<em>Investigador Asociado ‘C’</em>),
+            <a href="https://www.iimas.unam.mx/" target="_blank" rel="noopener" class="underline decoration-emerald-500/60 hover:decoration-emerald-700 font-semibold" style="color: var(--primary);">IIMAS</a> –
+            <a href="https://www.unam.mx/" target="_blank" rel="noopener" class="underline decoration-emerald-500/60 hover:decoration-emerald-700 font-semibold" style="color: var(--primary);">Universidad Nacional Autónoma de México</a>
+          </p>
+
+          <p class="leading-relaxed text-base sm:text-lg mb-6">
+            My research centres on probability and stochastic processes, from the fluctuation theory, path geometry, and convex minorants of Lévy processes to the design and complexity analysis of exact and approximate Monte Carlo simulation algorithms. My interests include optimal Wasserstein couplings, limit theorems, Bayesian non-parametric survival analysis, the mathematical foundations of machine learning, and mathematical finance.
+          </p>
+
+          <!-- Primary Action Buttons -->
+          <div class="flex flex-wrap gap-3 pt-1">
+            <a href="#research" class="btn-emerald">
+              <span>Browse research</span>
+              <span>→</span>
+            </a>
+            <a href="#videos" class="btn-sage">
+              <span>Coauthored videos on Prob-AM</span>
+              <span>↗</span>
+            </a>
+            <a href="#cv" class="btn-sage">
+              <span>Curriculum Vitae</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact & Research in Conversation Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Contact Block -->
+          <div class="green-card p-6 border-l-4 border-l-emerald-600">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-emerald-700 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>Contact &amp; Affiliation</span>
+            </h2>
+
+            <div class="space-y-3 text-sm">
+              <div>
+                <span class="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Address</span>
+                <p class="mt-0.5 leading-relaxed">
+                  <a href="https://www.iimas.unam.mx/" target="_blank" rel="noopener" class="font-semibold hover:underline" style="color: var(--primary);">Department of Probability and Statistics, IIMAS</a><br>
+                  Universidad Nacional Autónoma de México (UNAM)<br>
+                  Circuito Escolar 3000, Ciudad Universitaria, Coyoacán, 04510 Ciudad de México, México
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-emerald-200/60 dark:border-emerald-800/50">
+                <span class="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Email &amp; Academic Roles</span>
+                <p class="mt-0.5 leading-relaxed">
+                  <a href="mailto:jorge.gonzalez@sigma.iimas.unam.mx" class="font-semibold hover:underline break-all" style="color: var(--primary);">
+                    jorge.gonzalez@sigma.iimas.unam.mx
+                  </a><br>
+                  <span class="text-xs" style="color: var(--text-muted);">
+                    Representative for Statistics (Posgrado en Ciencias Matemáticas, UNAM) · Organizer of the Probability &amp; Stochastic Processes Seminar
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Research in Conversation Block -->
+          <div class="green-card p-6 border-l-4 border-l-emerald-600 flex flex-col justify-between">
+            <div>
+              <h2 class="text-xl font-bold mb-3 flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-700 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <span>Research in conversation</span>
+              </h2>
+              <p class="text-sm leading-relaxed mb-4">
+                On the YouTube channel
+                <a href="https://www.youtube.com/channel/UCXSoLS_uKebYZ9GzgAF0ZsA" target="_blank" rel="noopener" class="font-semibold underline" style="color: var(--primary);">Prob-AM</a>,
+                my coauthors and I explain theorems, exact simulation algorithms, and proof techniques from our joint research on Lévy processes, convex minorants, couplings, and Monte Carlo methods.
+              </p>
+            </div>
+
+            <div class="green-tinted-box p-3.5 flex items-center justify-between">
+              <div class="text-xs">
+                <strong class="block text-emerald-900 dark:text-emerald-200">16 Coauthored Videos</strong>
+                <span style="color: var(--text-muted);">5 talks presented directly by Jorge</span>
+              </div>
+              <a href="#videos" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                Watch talks →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Profile Card, Interactive Lévy Convex Minorant Visualizer & Links -->
+      <aside class="lg:col-span-4 green-card p-5 border-t-4 border-t-emerald-700 space-y-5">
+        
+        <!-- Interactive Lévy Path & Convex Minorant Graphic (with Portrait Fallback) -->
+        <div class="relative rounded-xl overflow-hidden border border-emerald-300/70 bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-900 text-white p-4 shadow-inner">
+          <div class="flex items-center justify-between text-xs text-emerald-200 mb-2">
+            <span class="font-semibold tracking-wide uppercase">Lévy Path &amp; Convex Minorant</span>
+            <button type="button" onclick="drawLevyConvexMinorant()" class="px-2.5 py-1 rounded-md bg-emerald-700/70 hover:bg-emerald-600 text-white font-semibold transition text-[11px] flex items-center gap-1" title="Simulate a new Lévy path and its convex minorant">
+              <span>↻ Resample Path</span>
+            </button>
+          </div>
+
+          <svg id="levySvg" viewBox="0 0 360 210" class="w-full h-44 rounded-lg bg-emerald-950/60 border border-emerald-700/40"></svg>
+
+          <div class="mt-2.5 flex items-center justify-between text-[11px] text-emerald-200/90">
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 inline-block"></span>
+              Path $X_t$
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2.5 h-0.5 bg-amber-400 inline-block"></span>
+              Convex minorant $C_t$
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-rose-400 inline-block"></span>
+              Supremum $\bar{X}_T$
+            </span>
+          </div>
+        </div>
+
+        <!-- Quick Bibliometrics -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="green-tinted-box p-2.5">
+            <span class="block text-xl font-bold" style="color: var(--primary);">19+4</span>
+            <span class="text-[11px] font-medium" style="color: var(--text-muted);">Papers &amp; Preprints</span>
+          </div>
+          <div class="green-tinted-box p-2.5">
+            <span class="block text-xl font-bold" style="color: var(--primary);">153</span>
+            <span class="text-[11px] font-medium" style="color: var(--text-muted);">Citations ($h=8$)</span>
+          </div>
+          <div class="green-tinted-box p-2.5">
+            <span class="block text-xl font-bold" style="color: var(--primary);">16</span>
+            <span class="text-[11px] font-medium" style="color: var(--text-muted);">YouTube Talks</span>
+          </div>
+        </div>
+
+        <!-- Find My Work Links -->
+        <div>
+          <span class="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-2.5">
+            Find my work &amp; profiles
+          </span>
+          <div class="grid grid-cols-1 gap-1.5 text-sm font-medium">
+            <a href="https://arxiv.org/search/?searchtype=author&query=Gonz%C3%A1lez+C%C3%A1zares%2C+J" target="_blank" rel="noopener" class="nav-dropdown-item green-tinted-box !py-2">
+              <span>arXiv Preprints</span>
+              <span class="text-emerald-700 dark:text-emerald-300 font-bold">↗</span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=mpatY-4AAAAJ&hl=en" target="_blank" rel="noopener" class="nav-dropdown-item green-tinted-box !py-2">
+              <span>Google Scholar (Citations: 153)</span>
+              <span class="text-emerald-700 dark:text-emerald-300 font-bold">↗</span>
+            </a>
+            <a href="https://orcid.org/0000-0002-6949-3566" target="_blank" rel="noopener" class="nav-dropdown-item green-tinted-box !py-2">
+              <span>ORCID (0000-0002-6949-3566)</span>
+              <span class="text-emerald-700 dark:text-emerald-300 font-bold">↗</span>
+            </a>
+            <a href="https://www.researchgate.net/profile/Jorge-Ignacio-Gonzalez-Cazares-2" target="_blank" rel="noopener" class="nav-dropdown-item green-tinted-box !py-2">
+              <span>ResearchGate Profile</span>
+              <span class="text-emerald-700 dark:text-emerald-300 font-bold">↗</span>
+            </a>
+            <a href="https://www.youtube.com/channel/UCXSoLS_uKebYZ9GzgAF0ZsA" target="_blank" rel="noopener" class="nav-dropdown-item green-tinted-box !py-2">
+              <span>Prob-AM YouTube Channel</span>
+              <span class="text-emerald-700 dark:text-emerald-300 font-bold">↗</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- EXPLORE BY TOPIC SECTION (Aleks's Topic Grid with Interactive Filtering) -->
+    <section id="topics" class="pt-4">
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-5">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Interactive Topic Explorer</span>
+          <h2 class="text-2xl sm:text-3xl font-bold mt-0.5">Explore by topic</h2>
+        </div>
+        <p class="text-sm" style="color: var(--text-muted);">
+          Click any research area below to filter the publications and videos automatically.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <button type="button" onclick="selectTopicFromGrid('all')" class="topic-pill active-topic" data-topic-btn="all">
+          <span>All Research Topics</span>
+          <span class="badge-emerald">Show all →</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('simulation')" class="topic-pill" data-topic-btn="simulation">
+          <span>Exact &amp; Monte Carlo simulation</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('convex')" class="topic-pill" data-topic-btn="convex">
+          <span>Convex hulls &amp; minorants</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('levy')" class="topic-pill" data-topic-btn="levy">
+          <span>Lévy processes &amp; fluctuations</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('couplings')" class="topic-pill" data-topic-btn="couplings">
+          <span>Wasserstein couplings &amp; CLTs</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('finance')" class="topic-pill" data-topic-btn="finance">
+          <span>Mathematical finance &amp; drawdowns</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('sdes')" class="topic-pill" data-topic-btn="sdes">
+          <span>Diffusions, rough paths &amp; SDEs</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('stats')" class="topic-pill" data-topic-btn="stats">
+          <span>Bayesian &amp; high-frequency statistics</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+        <button type="button" onclick="selectTopicFromGrid('ml')" class="topic-pill" data-topic-btn="ml">
+          <span>HMC, SGD &amp; machine learning</span>
+          <span class="text-emerald-700 dark:text-emerald-400">→</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- COAUTHORED YOUTUBE VIDEOS SECTION (With Filter Drop-Downs & Collapsible LaTeX Snippets) -->
+    <section id="videos" class="pt-6 border-t-2 border-emerald-200 dark:border-emerald-800/70">
+      <div class="green-card p-6 sm:p-8">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-emerald-200/80 dark:border-emerald-800/60">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+              Prob-AM YouTube Channel · Coauthored Research Videos
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold mt-1">
+              Videos &amp; Mathematical Snippets
+            </h2>
+            <p class="text-sm mt-1" style="color: var(--text-muted);">
+              16 research talks across 13 coauthored projects with A. Mijatović and collaborators. Use the drop-down lists below to filter by topic or speaker.
+            </p>
+          </div>
+
+          <!-- Interactive Drop-Down Controls for Videos -->
+          <div class="flex flex-wrap items-center gap-3">
+            <div>
+              <label for="videoTopicSelect" class="block text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 mb-1">
+                Topic Drop-Down
+              </label>
+              <select id="videoTopicSelect" onchange="applyVideoFilters()" class="custom-select">
+                <option value="all">All Video Topics (13 series)</option>
+                <option value="simulation">Exact &amp; Monte Carlo Simulation</option>
+                <option value="convex">Convex Hulls &amp; Minorants</option>
+                <option value="couplings">Couplings, CLTs &amp; Densities</option>
+                <option value="fluctuations">Fluctuation Theory &amp; Extrema</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="videoSpeakerSelect" class="block text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 mb-1">
+                Speaker Filter
+              </label>
+              <select id="videoSpeakerSelect" onchange="applyVideoFilters()" class="custom-select">
+                <option value="all">All Coauthors (16 videos)</option>
+                <option value="jorge">Presented by Jorge (5 videos)</option>
+                <option value="coauthors">Presented by Coauthors (11 videos)</option>
+              </select>
+            </div>
+
+            <div class="pt-4">
+              <button type="button" onclick="toggleAllVideoAccordions()" class="btn-sage !py-2 !px-3.5 !text-xs">
+                <span id="toggleAccordionsText">Expand All Proof Snippets</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Cards Grid -->
+        <div id="videoCardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+
+          <!-- Video 1: Multivariate CLT -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="couplings" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">CLT &amp; Convergence Rates</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Sep 2025 · 15:52</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=BL1aVeoGCY8" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Multivariate CLT for Lévy processes: convergence rates without moment assumptions ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong>, D. Kramer-Bang, and A. Mijatović (<em>Bernoulli</em>, 2026+)
+              </p>
+
+              <!-- Collapsible Drop-Down Mathematical Snippet -->
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    For a $d$-dimensional Lévy process $X_t$ with zero mean and unit covariance matrix $I_d$, the Central Limit Theorem holds as $t \to \infty$ ($t^{-1/2}X_t \xrightarrow{d} N_d(0,I_d)$). Without assuming $2+\delta$ moments, we prove that finite second moment is equivalent to the Dini-type integrability of the convex distance $d_c(t)$ under a modified jump-truncated covariance scaling $\sqrt{t}\Delta_t$:
+                  </p>
+                  <p class="text-center py-1">
+                    $$\mathbb{E}\big[\|X_1\|^2\big] < \infty \iff \int_1^\infty d_c^{\mathrm{mod}}(t)\,\frac{dt}{t} < \infty.$$
+                  </p>
+                  <p>
+                    In contrast, under the classical $\sqrt{t}$ scaling, $\int_1^\infty d_c(t)\,\frac{dt}{t} < \infty$ requires an extra $x^2 \log(1+x)$ moment.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('BL1aVeoGCY8', 'Multivariate CLT for Lévy processes: convergence rates without moment assumptions')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=BL1aVeoGCY8" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 2: Wasserstein Couplings -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="couplings" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Optimal Wasserstein Couplings</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Nov 2024 · 18:32</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=76eJD6a8Kko" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Asymptotically optimal Wasserstein couplings for the small-time stable domain of attraction ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong>, D. Kramer-Bang, and A. Mijatović (<em>Ann. Inst. H. Poincaré Probab. Statist.</em>, 2026+)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Studies the $q$-Wasserstein distance $\mathcal{W}_q(X_t / g(t), Z)$ ($q < \alpha$) between a multivariate Lévy process $X_t$ and its small-time $\alpha$-stable limit $Z$ as $t \downarrow 0$. Using thinning of Poisson point processes in the normal domain ($g(t)=t^{1/\alpha}$) and LePage series comonotonic couplings in the non-normal domain, we derive matching upper and lower bounds showing a sharp phase transition between polynomial rates $\mathcal{O}(t^{1-1/\alpha})$ and slower-than-logarithmic rates.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('76eJD6a8Kko', 'Asymptotically optimal Wasserstein couplings for the small-time stable domain of attraction')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=76eJD6a8Kko" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 3: Subordinator First Passage (Part I & II) -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="simulation" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Exact Simulation · Part I &amp; II</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Jun 2023 · 17:16 &amp; 16:06</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=yQJY-fDBS6Q" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Fast exact simulation of the first-passage event of a subordinator (Parts I &amp; II) ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong>, F. Lin, and A. Mijatović (<em>Stoch. Proc. Appl.</em>, 183, 2025)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Develops a fast exact simulation algorithm for the first-passage triplet $(\tau_C, Z_{\tau_C-}, Z_{\tau_C})$ of an infinite-activity subordinator $Z$ across a non-increasing boundary $t \mapsto C(t)$ by decomposing $Z = Y + Q$ into a truncated tempered stable subordinator $Y$ and a compound Poisson process $Q$. The computational complexity $\mathcal{T}$ satisfies $\mathbb{E}[e^{\theta \mathcal{T}}] < \infty$, yielding unbiased Monte Carlo solvers for generalized Caputo fractional parabolic PDEs.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('yQJY-fDBS6Q', 'Fast exact simulation of the first passage event of a subordinator (Part I)')" class="btn-emerald !py-1.5 !px-3 !text-xs">
+                ▶ Watch Part I
+              </button>
+              <button type="button" onclick="openVideoModal('FKJJzjRqdp4', 'Fast exact simulation of the first passage event of a subordinator (Part II)')" class="btn-emerald !py-1.5 !px-3 !text-xs">
+                ▶ Watch Part II
+              </button>
+              <a href="http://www.youtube.com/watch?v=yQJY-fDBS6Q" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 4: Tempered Stable Subordinator (Presented by Jorge - Parts 1 & 2) -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border-2 border-emerald-600/80" data-vtopic="simulation" data-vspeaker="jorge">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-speaker">★ Presented by Jorge · Part 1 &amp; 2</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Mar 2023 · 13:00 &amp; 17:33</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=e38c1LmrzfA" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Exact simulation of the first-passage event of a tempered stable subordinator &amp; Monte Carlo applications ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong>, F. Lin, and A. Mijatović (<em>Stoch. Sys.</em>, 15(1): 50–87, 2024)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    In <strong>Part 1</strong>, I show how exact samples of the first-passage triplet $(\tau_B, S_{\tau_B-}, S_{\tau_B})$ across a non-increasing curve $B$ eliminate time-stepping bias in Feynman–Kac representations of fractional PDEs ($\partial_t^\alpha u = \mathcal{L}u$) and barrier option pricing. In <strong>Part 2</strong>, I explain the internal algorithm combining an Esscher exponential change of measure $\mathbb{P}_q$, adaptive barrier stepping, and Devroye's log-concave rejection sampler with $\mathcal{O}(\varepsilon^{-2})$ Monte Carlo complexity.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('e38c1LmrzfA', 'Monte Carlo algorithm based on exact simulation of the first-passage event (Part 1)')" class="btn-emerald !py-1.5 !px-3 !text-xs">
+                ▶ Watch Part 1 (Jorge)
+              </button>
+              <button type="button" onclick="openVideoModal('dO-cQeABHdM', 'Exact simulation of the first-passage event of a tempered stable subordinator (Part 2)')" class="btn-emerald !py-1.5 !px-3 !text-xs">
+                ▶ Watch Part 2 (Jorge)
+              </button>
+              <a href="http://www.youtube.com/watch?v=e38c1LmrzfA" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 5: When is the convex hull of a Levy path smooth? (Presented by Jorge - Parts 1 & 2) -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border-2 border-emerald-600/80" data-vtopic="convex" data-vspeaker="jorge">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-speaker">★ Presented by Jorge · Part 1 &amp; 2</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">May 2022 · 17:23 &amp; 21:31</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=qPxBqaq2AsQ" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  When is the convex hull of a Lévy path smooth? (Parts 1 &amp; 2) ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: D. Bang, <strong>J. González Cázares</strong>, and A. Mijatović (<em>Ann. Inst. H. Poincaré Probab. Statist.</em>, 60(4): 2352–2381, 2024)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    A corner in the convex minorant $C_t$ on $[0,T]$ corresponds to an isolated point in the random set of face slopes $\mathcal{S} = \{\xi_n / \ell_n : n \ge 1\}$. By the Stick-Breaking Representation Theorem, $\mathcal{S}' = \mathcal{L}(\mathcal{S})$ is a deterministic closed set. For infinite-variation processes, we establish the dichotomy between <em>abrupt</em> processes ($\mathcal{L}(\mathcal{S})=\emptyset$, no smooth points) and <em>strongly eroded</em> processes ($\mathcal{L}(\mathcal{S})=\mathbb{R}$, $C^1$-smooth at every non-vertex point) via the Fourier integral criterion:
+                  </p>
+                  <p class="text-center py-1">
+                    $$S_1(r) = \int_{\mathbb{R}} \mathrm{Re}\!\left(\frac{1}{1+\Psi(u)-ir}\right) du = \infty.$$
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('qPxBqaq2AsQ', 'When is the convex hull of a Lévy path smooth? Part 1')" class="btn-emerald !py-1.5 !px-3 !text-xs">
+                ▶ Watch Part 1 (Jorge)
+              </button>
+              <button type="button" onclick="openVideoModal('Z-LtWuh6Ulg', 'When is the convex hull of a Lévy path smooth? Part 2')" class="btn-emerald !py-1.5 !px-3 !text-xs">
+                ▶ Watch Part 2 (Jorge)
+              </button>
+              <a href="http://www.youtube.com/watch?v=qPxBqaq2AsQ" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 6: TSB-Algorithm (Presented by Jorge) -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border-2 border-emerald-600/80" data-vtopic="simulation" data-vspeaker="jorge">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-speaker">★ Presented by Jorge · Monte Carlo</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Mar 2021 · 09:34</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=FJG6A3zk2lI" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  TSB-Algorithm: Monte Carlo algorithm for the extrema of tempered stable processes ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong> and A. Mijatović (<em>Adv. Appl. Probab.</em>, 1–28, 2023)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Combines the stick-breaking representation of the convex minorant with an Esscher measure change $\left.\frac{d\mathbb{P}}{d\widetilde{\mathbb{P}}}\right|_{\mathcal{F}_t} = e^{\eta(X_t - \gamma t) - c t}$ to reduce tempered stable (CGMY) extrema simulation to exact stable increment sampling. Achieves geometric bias decay and near-optimal $\mathcal{O}(\varepsilon^{-2})$ Monte Carlo complexity for barrier options and the Ulcer risk index.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('FJG6A3zk2lI', 'TSB-Algorithm: Monte Carlo algorithm for the extrema of tempered stable processes')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Watch Talk (Jorge)
+              </button>
+              <a href="http://www.youtube.com/watch?v=FJG6A3zk2lI" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 7: Holder continuity of convex minorant -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="convex" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Convex Minorants</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Jul 2022 · 11:03</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=PKvSg2tKqfs" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Hölder continuity of the convex minorant of a Lévy process ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: D. Kramer-Bang, <strong>J. González Cázares</strong>, and A. Mijatović (<em>Electron. Commun. Probab.</em>, 28: 1–12, 2023)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Establishes a $0\text{–}1$ law for the $r$-Hölder continuity of the convex minorant $C$ on $(0,T)$ via the boundedness of the $r$-slopes $|\xi_n|/\ell_n^r$. The critical Hölder exponent is $r_{\mathrm{crit}} = 1/2$ if $\sigma^2 > 0$ and $r_{\mathrm{crit}} = 1/\beta$ otherwise, where $\beta \in [1,2]$ is the Blumenthal–Getoor index.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('PKvSg2tKqfs', 'Hölder continuity of the convex minorant of a Lévy process')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=PKvSg2tKqfs" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 8: Joint density of stable process and its supremum -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="couplings" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Stable Densities &amp; Regularity</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Jul 2022 · 53:52</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=x0n3Up9CxCA" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Joint density of the stable process and its supremum: regularity and upper bounds ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong>, A. Kohatsu-Higa, and A. Mijatović (<em>Bernoulli</em>, 29(4): 3443–3469, 2023)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Proves for the first time that the joint density $f_{(X_1, \bar{X}_1)}(x,y)$ of an $\alpha$-stable process and its supremum is $C^\infty((-\infty,y)\times(0,\infty))$ and derives sharp upper bounds for all partial derivatives $\partial_x^n \partial_y^m f(x,y)$ by combining the geometrically convergent stick-breaking representation with the Chambers–Mallows–Stuck generator and multilevel interpolation.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('x0n3Up9CxCA', 'Joint density of the stable process and its supremum: regularity and upper bounds')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=x0n3Up9CxCA" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 9: How smooth can the convex hull of a Levy path be? -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="convex" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Convex Hull Regularity</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Jun 2022 · 20:02</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=9uCge3eMHQg" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  How smooth can the convex hull of a Lévy path be? ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: D. Kramer-Bang, <strong>J. González Cázares</strong>, and A. Mijatović (<em>Electron. J. Probab.</em>, 29: 1–36, 2024)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Investigates the fine modulus of continuity of the right-derivative $C'_t$ of the convex minorant immediately after vertex times $v_s = \inf\{t : C'_t > s\}$ and near $t=0$, establishing upper and lower integral tests for $\Delta C'(v_s, t) = C'(v_s+t) - C'(v_s)$ with logarithmic-scale dependence on the positivity parameter $\rho = \mathbb{P}(X_t \ge 0)$.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('9uCge3eMHQg', 'How smooth can the convex hull of a Lévy path be?')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=9uCge3eMHQg" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 10: SB-Algorithm -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="simulation" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Stick-Breaking Simulation</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Jun 2021 · 12:42</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=P3vHmJUCFbU" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  SB-Algorithm for the simulation of the extrema of Lévy processes ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong>, A. Mijatović, and G. Uribe Bravo (<em>Math. Oper. Res.</em>, 47(2): 1141–1168, 2022)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Introduces the Stick-Breaking (SB) algorithm to approximate $\chi_T = (X_T, \bar{X}_T, \tau_T)$ by sampling $n$ stick lengths $\ell_1, \dots, \ell_n$ on $[0,T]$ and conditionally exact increments $\xi_k \sim X_{\ell_k}$. The $L^p$-Wasserstein error decays geometrically as $2^{-n/p}$, yielding optimal multilevel Monte Carlo complexity $\mathcal{O}(\varepsilon^{-2})$.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('P3vHmJUCFbU', 'SB-Algorithm for the simulation of the extrema of Lévy processes')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=P3vHmJUCFbU" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 11: Asymptotic shape of concave majorant -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="convex" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Concave Majorants &amp; CLTs</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Jun 2021 · 15:52</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=b0AOJm-dE3g" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Asymptotic shape of the concave majorant of a Lévy process ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: D. Bang, <strong>J. González Cázares</strong>, and A. Mijatović (<em>Ann. Henri Lebesgue</em>, 5: 779–811, 2022)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Analyzes the arc-length $\Upsilon_T = \sum_{n=1}^\infty \sqrt{\ell_n^2 + \xi_n^2}$ of the concave majorant on $[0,T]$. Since $\Upsilon_T - T = \sum_{n=1}^\infty (\sqrt{\ell_n^2 + \xi_n^2} - \ell_n)$, we establish joint scaling limits for $(\Upsilon_T - \mu(T), \bar{X}_T, X_T, \tau_T)$ as $T \to \infty$ (and $T \downarrow 0$) across both the finite-variance Gaussian regime and the $\alpha$-stable attraction regime.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('b0AOJm-dE3g', 'Asymptotic shape of the concave majorant of a Lévy process')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=b0AOJm-dE3g" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 12: Convex minorant and fluctuation theory -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80" data-vtopic="fluctuations" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Fluctuation Theory</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">May 2021 · 17:57</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=hEg4YmxOgXA" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  Convex minorant and fluctuation theory of Lévy processes ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong> and A. Mijatović (<em>ALEA</em>, 19(1): 983–999, 2022)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Gives a short, elementary geometric proof of the Stick-Breaking Representation Theorem (SBRT) for the convex minorant of a general Lévy process and derives the Wiener–Hopf factorization, Rogozin's regularity criterion, and Spitzer's identities directly from Poisson point process markings with intensity $t^{-1}\,dt\,\mathbb{P}(X_t \in dx)$ on $(0,\infty)\times\mathbb{R}$.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('hEg4YmxOgXA', 'Convex minorant and fluctuation theory of Lévy processes')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=hEg4YmxOgXA" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Video 13: SBG-Algorithm -->
+          <article class="video-item green-tinted-box p-5 flex flex-col justify-between border border-emerald-300/80 md:col-span-2" data-vtopic="simulation" data-vspeaker="coauthors">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                <span class="badge-emerald">Gaussian Approximation &amp; Drawdowns</span>
+                <span class="text-xs font-medium" style="color: var(--text-muted);">Nov 2020 · 13:05</span>
+              </div>
+              <h3 class="text-lg font-bold leading-snug mb-1.5">
+                <a href="http://www.youtube.com/watch?v=EL0v2QUb5tQ" target="_blank" rel="noopener" class="hover:underline" style="color: var(--primary);">
+                  SBG-Algorithm: stick-breaking Gaussian simulation of the extrema of Lévy processes ↗
+                </a>
+              </h3>
+              <p class="text-xs mb-3" style="color: var(--text-muted);">
+                Authors: <strong>J. González Cázares</strong> and A. Mijatović (<em>Finance and Stochastics</em>, 26(4): 671–732, 2022)
+              </p>
+
+              <details class="green-accordion text-sm mb-4">
+                <summary>
+                  <span>Mathematical Snippet &amp; Key Result</span>
+                  <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </summary>
+                <div class="p-3.5 text-xs sm:text-sm leading-relaxed space-y-2 border-t border-emerald-200/60">
+                  <p>
+                    Couples the Stick-Breaking (SB) representation with the Asmussen–Rosiński small-jump Gaussian approximation $X^\kappa$ (replacing jumps in $(-\kappa, \kappa)$ with scaled Brownian motion) to simulate the joint law of $(X_T, \bar{X}_T, \tau_T)$, the drawdown $Y_T = \bar{X}_T - X_T$, and its duration $D_T = T - \tau_T$ for general infinite-activity Lévy models, with explicit Wasserstein bounds and multilevel Monte Carlo estimators.
+                  </p>
+                </div>
+              </details>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-emerald-300/50">
+              <button type="button" onclick="openVideoModal('EL0v2QUb5tQ', 'SBG-Algorithm: stick-breaking Gaussian simulation of the extrema of Lévy processes')" class="btn-emerald !py-1.5 !px-3.5 !text-xs">
+                ▶ Preview Video Here
+              </button>
+              <a href="http://www.youtube.com/watch?v=EL0v2QUb5tQ" target="_blank" rel="noopener" class="btn-sage !py-1.5 !px-3 !text-xs">
+                Open on YouTube ↗
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH & PUBLICATIONS SECTION (With Interactive Drop-Down Filters & Search) -->
+    <section id="research" class="pt-6 border-t-2 border-emerald-200 dark:border-emerald-800/70">
+      <div class="green-card p-6 sm:p-8">
+        
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-emerald-200/80 dark:border-emerald-800/60">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+              Publications &amp; Preprints · Google Scholar: 153 Citations ($h$-index: 8, $i10$-index: 6)
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-bold mt-1">
+              Research Articles &amp; Working Papers
+            </h2>
+          </div>
+
+          <!-- Filter Drop-Downs & Search Bar -->
+          <div class="flex flex-wrap items-end gap-3">
+            <div>
+              <label for="pubTopicFilter" class="block text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 mb-1">
+                Filter by Topic
+              </label>
+              <select id="pubTopicFilter" onchange="filterPublications()" class="custom-select">
+                <option value="all">All Topics (29 works)</option>
+                <option value="simulation">Exact &amp; Monte Carlo Simulation</option>
+                <option value="convex">Convex Hulls &amp; Minorants</option>
+                <option value="levy">Lévy Processes &amp; Fluctuations</option>
+                <option value="couplings">Wasserstein Couplings &amp; CLTs</option>
+                <option value="finance">Mathematical Finance &amp; Drawdowns</option>
+                <option value="sdes">Diffusions, Rough Paths &amp; SDEs</option>
+                <option value="stats">Bayesian &amp; High-Frequency Statistics</option>
+                <option value="ml">HMC, SGD &amp; Machine Learning</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="pubStatusFilter" class="block text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 mb-1">
+                Filter by Status
+              </label>
+              <select id="pubStatusFilter" onchange="filterPublications()" class="custom-select">
+                <option value="all">All Statuses</option>
+                <option value="published">Published &amp; Accepted (19)</option>
+                <option value="submitted">Submitted Manuscripts (4)</option>
+                <option value="progress">Work in Progress (6)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="pubSearchInput" class="block text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 mb-1">
+                Keyword Search
+              </label>
+              <input id="pubSearchInput" type="search" oninput="filterPublications()" placeholder="e.g. Bernoulli, stable, HMC..." class="px-3.5 py-2 rounded-lg text-sm border border-emerald-300 bg-white dark:bg-emerald-950/60 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Published & Accepted Articles Container -->
+        <div id="pubSectionPublished" class="mt-6">
+          <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 mb-4 flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+            <span>Published &amp; Accepted Journal Articles (19)</span>
+          </h3>
+
+          <ol id="publishedList" class="space-y-3 list-decimal list-inside text-sm sm:text-base">
+            <li class="pub-item green-tinted-box p-4" data-ptopic="couplings levy" data-pstatus="published">
+              <strong>J. González Cázares</strong>, D. Kramer-Bang, and A. Mijatović.
+              <em>Multivariate CLT for Lévy processes: convergence rates without moment assumptions.</em>
+              To appear in <strong>Bernoulli</strong>, 2026+.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+              <a href="http://www.youtube.com/watch?v=BL1aVeoGCY8" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="stats" data-pstatus="published">
+              M. Bladt and <strong>J. González Cázares</strong>.
+              <em>Distribution splicing for Bayesian non-parametric survival estimation.</em>
+              To appear in <strong>Bayesian Analysis</strong>, 2026+.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q1</span>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="couplings levy" data-pstatus="published">
+              <strong>J. González Cázares</strong>, D. Kramer-Bang, and A. Mijatović.
+              <em>Asymptotically optimal Wasserstein couplings for the small-time stable domain of attraction.</em>
+              To appear in <strong>Ann. Inst. H. Poincaré Probab. Statist.</strong>, 2026+.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+              <a href="http://www.youtube.com/watch?v=76eJD6a8Kko" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation levy" data-pstatus="published">
+              <strong>J. González Cázares</strong>, F. Lin, and A. Mijatović.
+              <em>Fast exact simulation of the first-passage event of a subordinator.</em>
+              <strong>Stochastic Processes and their Applications</strong>, 183, 2025.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q1</span>
+              <a href="http://www.youtube.com/watch?v=yQJY-fDBS6Q" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[Video Part I ↗]</a>
+              <a href="http://www.youtube.com/watch?v=FKJJzjRqdp4" target="_blank" rel="noopener" class="ml-1 font-semibold text-xs underline" style="color: var(--primary);">[Video Part II ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation levy finance" data-pstatus="published">
+              <strong>J. González Cázares</strong>, F. Lin, and A. Mijatović.
+              <em>Fast exact simulation of the first passage of a tempered stable subordinator across a non-increasing function.</em>
+              <strong>Stochastic Systems</strong>, 15(1): 50–87, 2024.
+              <span class="badge-emerald ml-1">SJR Q2 · JCR Q2</span>
+              <a href="http://www.youtube.com/watch?v=e38c1LmrzfA" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[Video Part 1 ↗]</a>
+              <a href="http://www.youtube.com/watch?v=dO-cQeABHdM" target="_blank" rel="noopener" class="ml-1 font-semibold text-xs underline" style="color: var(--primary);">[Video Part 2 ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="convex levy" data-pstatus="published">
+              D. Kramer-Bang, <strong>J. González Cázares</strong>, and A. Mijatović.
+              <em>How smooth can the convex hull of a Lévy path be?</em>
+              <strong>Electronic Journal of Probability</strong>, 29: 1–36, 2024.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+              <a href="http://www.youtube.com/watch?v=9uCge3eMHQg" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="convex levy" data-pstatus="published">
+              D. Bang, <strong>J. González Cázares</strong>, and A. Mijatović.
+              <em>When is the convex hull of a Lévy path smooth?</em>
+              <strong>Ann. Inst. H. Poincaré Probab. Statist.</strong>, 60(4): 2352–2381, 2024.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+              <a href="http://www.youtube.com/watch?v=qPxBqaq2AsQ" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[Video Part 1 ↗]</a>
+              <a href="http://www.youtube.com/watch?v=Z-LtWuh6Ulg" target="_blank" rel="noopener" class="ml-1 font-semibold text-xs underline" style="color: var(--primary);">[Video Part 2 ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="convex levy" data-pstatus="published">
+              D. Kramer-Bang, <strong>J. González Cázares</strong>, and A. Mijatović.
+              <em>Hölder continuity of the convex minorant of a Lévy process.</em>
+              <strong>Electronic Communications in Probability</strong>, 28: 1–12, 2023.
+              <span class="badge-emerald ml-1">SJR Q2 · JCR Q3</span>
+              <a href="http://www.youtube.com/watch?v=PKvSg2tKqfs" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation finance levy" data-pstatus="published">
+              <strong>J. González Cázares</strong> and A. Mijatović.
+              <em>Monte Carlo algorithm for the extrema of tempered stable processes.</em>
+              <strong>Advances in Applied Probability</strong>, 1–28, 2023.
+              <span class="badge-emerald ml-1">SJR Q2 · JCR Q3</span>
+              <a href="http://www.youtube.com/watch?v=FJG6A3zk2lI" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="levy convex couplings" data-pstatus="published">
+              <strong>J. González Cázares</strong>, A. Kohatsu-Higa, and A. Mijatović.
+              <em>Joint density of a stable process and its supremum.</em>
+              <strong>Bernoulli</strong>, 29(4): 3443–3469, 2023.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+              <a href="http://www.youtube.com/watch?v=x0n3Up9CxCA" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="convex levy" data-pstatus="published">
+              <strong>J. González Cázares</strong> and A. Mijatović.
+              <em>Convex minorants and the fluctuation theory of Lévy processes.</em>
+              <strong>ALEA, Lat. Am. J. Probab. Math. Stat.</strong>, 19(1): 983–999, 2022.
+              <span class="badge-emerald ml-1">SJR Q2 · JCR Q4</span>
+              <a href="http://www.youtube.com/watch?v=hEg4YmxOgXA" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation finance levy couplings" data-pstatus="published">
+              <strong>J. González Cázares</strong> and A. Mijatović.
+              <em>Simulation of the drawdown and its duration in Lévy models via stick-breaking with small-jump Gaussian approximation.</em>
+              <strong>Finance and Stochastics</strong>, 26(4): 671–732, 2022.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q1</span>
+              <a href="http://www.youtube.com/watch?v=EL0v2QUb5tQ" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation convex levy" data-pstatus="published">
+              <strong>J. González Cázares</strong>, A. Mijatović, and G. Uribe Bravo.
+              <em>Geometrically convergent simulation of the extrema of Lévy processes.</em>
+              <strong>Mathematics of Operations Research</strong>, 47(2): 1141–1168, 2022.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q1</span>
+              <a href="http://www.youtube.com/watch?v=P3vHmJUCFbU" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="convex couplings levy" data-pstatus="published">
+              D. Bang, <strong>J. González Cázares</strong>, and A. Mijatović.
+              <em>Asymptotic shape of the concave majorant of a Lévy process.</em>
+              <strong>Annales Henri Lebesgue</strong>, 5: 779–811, 2022.
+              <span class="badge-emerald ml-1">CS Q1</span>
+              <a href="http://www.youtube.com/watch?v=b0AOJm-dE3g" target="_blank" rel="noopener" class="ml-2 font-semibold text-xs underline" style="color: var(--primary);">[YouTube Video ↗]</a>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="couplings simulation levy" data-pstatus="published">
+              V. Fomichov, <strong>J. González Cázares</strong>, and J. Ivanovs.
+              <em>Implementable coupling of Lévy processes and Brownian motion.</em>
+              <strong>Stochastic Processes and their Applications</strong>, 142: 407–431, 2021.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q1</span>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="couplings levy" data-pstatus="published">
+              D. Bang, <strong>J. González Cázares</strong>, and A. Mijatović.
+              <em>A Gaussian approximation theorem for Lévy processes.</em>
+              <strong>Statistics &amp; Probability Letters</strong>, 178: Paper No. 109187, 2021.
+              <span class="badge-emerald ml-1">SJR Q2 · JCR Q4</span>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="stats levy" data-pstatus="published">
+              <strong>J. González Cázares</strong> and J. Ivanovs.
+              <em>Recovering Brownian and jump parts from high-frequency observations of a Lévy process.</em>
+              <strong>Bernoulli</strong>, 27(4): 2413–2436, 2021.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation convex levy" data-pstatus="published">
+              <strong>J. González Cázares</strong>, A. Mijatović, and G. Uribe Bravo.
+              <em>$\varepsilon$-strong simulation of the convex minorants of stable processes and meanders.</em>
+              <strong>Electronic Journal of Probability</strong>, 25: Paper No. 96, 2020.
+              <span class="badge-emerald ml-1">SJR Q1 · JCR Q2</span>
+            </li>
+
+            <li class="pub-item green-tinted-box p-4" data-ptopic="simulation convex levy" data-pstatus="published">
+              <strong>J. González Cázares</strong>, A. Mijatović, and G. Uribe Bravo.
+              <em>Exact simulation of the extrema of Lévy processes.</em>
+              <strong>Advances in Applied Probability</strong>, 51(4): 967–993, 2019.
+              <span class="badge-emerald ml-1">SJR Q2 · JCR Q3</span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Submitted Manuscripts & Work in Progress Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          <div id="pubSectionSubmitted">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 mb-3 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              <span>Submitted Manuscripts (2026)</span>
+            </h3>
+            <ul class="space-y-2.5 text-sm">
+              <li class="pub-item green-tinted-box p-3.5" data-ptopic="convex levy" data-pstatus="submitted">
+                <strong>J. González Cázares</strong>, D. Kramer-Bang, and A. Mijatović.
+                <em>Infinite-variation Lévy processes are either strongly eroded or abrupt.</em> (2026)
+              </li>
+              <li class="pub-item green-tinted-box p-3.5" data-ptopic="sdes couplings levy" data-pstatus="submitted">
+                <strong>J. González Cázares</strong> and D. Kramer-Bang.
+                <em>Rates of convergence for multivariate SDEs driven by Lévy processes in the small-time stable domain of attraction.</em> (2026)
+              </li>
+              <li class="pub-item green-tinted-box p-3.5" data-ptopic="ml simulation" data-pstatus="submitted">
+                M. Molina, A. Granados, <strong>J. González Cázares</strong>, and I. Bañales.
+                <em>Understanding the Hamiltonian Monte Carlo through its Physics Fundamentals and Examples.</em> (2026)
+              </li>
+              <li class="pub-item green-tinted-box p-3.5" data-ptopic="stats" data-pstatus="submitted">
+                <strong>J. González Cázares</strong> and A. Jaramillo Gil.
+                <em>Robust Scale Estimation in Additive Noise via Weighted Order Statistics.</em> (2026)
+              </li>
+            </ul>
+          </div>
+
+          <div id="pubSectionProgress">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 mb-3 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span>
+              <span>Work in Progress</span>
+            </h3>
+            <ul class="space-y-2.5 text-sm">
+              <li class="pub-item green-tinted-box p-3" data-ptopic="stats sdes" data-pstatus="progress">
+                <em>Separating fractional Brownian noise from noisy signals</em>
+              </li>
+              <li class="pub-item green-tinted-box p-3" data-ptopic="stats finance" data-pstatus="progress">
+                <em>Gaussian filters and volatility estimation</em>
+              </li>
+              <li class="pub-item green-tinted-box p-3" data-ptopic="sdes" data-pstatus="progress">
+                <em>Characterisation, existence, and uniqueness of the weak pathwise derivative of a killed diffusion</em>
+              </li>
+              <li class="pub-item green-tinted-box p-3" data-ptopic="stats levy" data-pstatus="progress">
+                <em>On non-parametric, consistent and neutral to the right Bayesian models that preserve pathwise tail asymptotics</em>
+              </li>
+              <li class="pub-item green-tinted-box p-3" data-ptopic="ml" data-pstatus="progress">
+                <em>A median-of-means-based stochastic gradient descent</em>
+              </li>
+              <li class="pub-item green-tinted-box p-3" data-ptopic="sdes" data-pstatus="progress">
+                <em>Construction of a Skew Bessel process via time-change equations</em>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Scientific Grants Sub-Block -->
+        <div id="grants" class="mt-8 pt-6 border-t border-emerald-200/80 dark:border-emerald-800/60">
+          <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 mb-4">
+            Scientific Research Grants
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-600">
+              <span class="badge-emerald">01/2025 – 12/2026</span>
+              <strong class="block mt-2 text-base">PAPIIT Grant IA104425 ($328,070 MXN)</strong>
+              <p class="mt-1 text-xs" style="color: var(--text-muted);">
+                Principal Investigator · <em>“Filtro y preprocesamiento gaussiano de datos”</em> (UNAM).
+              </p>
+            </div>
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-600">
+              <span class="badge-emerald">04/2024</span>
+              <strong class="block mt-2 text-base">Isaac Newton Institute Satellite Programme (£120,000)</strong>
+              <p class="mt-1 text-xs" style="color: var(--text-muted);">
+                Author &amp; Organizer · <em>Heavy Tails in Machine Learning</em> (INI, UK).
+              </p>
+            </div>
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-600">
+              <span class="badge-emerald">01/2021 – 04/2025</span>
+              <strong class="block mt-2 text-base">EPSRC Grant EP/V009478/1 (£662,611)</strong>
+              <p class="mt-1 text-xs" style="color: var(--text-muted);">
+                Co-author of the scientific grant proposal (University of Warwick &amp; The Alan Turing Institute).
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CV, EDUCATION & OLYMPIAD MEDALS SECTION -->
+    <section id="cv" class="pt-6 border-t-2 border-emerald-200 dark:border-emerald-800/70">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left 7 Cols: Experience & Education -->
+        <div class="lg:col-span-7 green-card p-6 sm:p-8 space-y-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Academic &amp; Industry Trajectory</span>
+            <h2 class="text-2xl sm:text-3xl font-bold mt-1">Experience &amp; Education</h2>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-base font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Academic &amp; Research Positions</h3>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-700">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">Associate Researcher ‘C’ (Interim) · IIMAS – UNAM</strong>
+                <span class="badge-emerald">09/2023 – Present</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                Ciudad de México, México · International research collaborations across Denmark, UK, France, Japan, and Mexico. SNII Candidate (01/2026–present). Thesis advisor and graduate/undergraduate lecturer at UNAM.
+              </p>
+            </div>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-600">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">Postdoctoral Researcher · University of Warwick &amp; Alan Turing Institute</strong>
+                <span class="badge-emerald">02/2022 – 09/2023</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                Coventry &amp; London, UK · Research in probability, applied probability, and machine learning. Co-authored and won EPSRC scientific grant EP/V009478/1 (£662,611).
+              </p>
+            </div>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-500">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">Fixed Income Markets Intern · BlackRock</strong>
+                <span class="badge-emerald">10/2018 – 04/2019</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                London, UK · Developed valuation algorithms using historical data, rough path theory, and machine learning in collaboration with The Alan Turing Institute under the supervision of T. Lyons (Oxford), A. Mijatović (Warwick), and H. Ni (UCL).
+              </p>
+            </div>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-emerald-500">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">Lecturer &amp; Teaching Assistant · King’s College London &amp; FC–UNAM</strong>
+                <span class="badge-emerald">2014 – 2018</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                King's College London (01/2018–12/2018, Probability &amp; Statistics with outstanding student evaluations); Facultad de Ciencias, UNAM (Stochastic Processes I &amp; II, Calculus I–III, Finance I).
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4 pt-4 border-t border-emerald-200/70 dark:border-emerald-800/60">
+            <h3 class="text-base font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Education</h3>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-amber-500">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">Ph.D. in Statistics · University of Warwick, UK</strong>
+                <span class="badge-gold">01/2022 · Harrison Award</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                Recipient of the <strong>Harrison Award</strong> for a highly commended thesis and fundamental contributions to the theory of Lévy processes. Submitted 11 manuscripts during the PhD, all published in leading peer-reviewed journals.
+              </p>
+            </div>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-amber-500">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">M.Sc. in Mathematical Sciences · UNAM, Mexico</strong>
+                <span class="badge-gold">06/2017 · GPA: 10.0 / 10.0 · Alfonso Caso Medal</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                Graduated <em>Summa Cum Laude</em> (Thesis: <em>“Procesos de Wishart”</em>). Passed General Exams in Probability and Statistics with Honours. Awarded the <strong>Alfonso Caso Medal</strong> as the most distinguished graduate.
+              </p>
+            </div>
+
+            <div class="green-tinted-box p-4 border-l-4 border-l-amber-500">
+              <div class="flex flex-wrap justify-between gap-2">
+                <strong class="text-base">B.Sc. in Actuarial Science · UNAM, Mexico</strong>
+                <span class="badge-gold">06/2015 · GPA: 9.87 / 10.0 · Gabino Barreda Medal</span>
+              </div>
+              <p class="text-xs sm:text-sm mt-1.5" style="color: var(--text-muted);">
+                Awarded the <strong>Gabino Barreda Medal</strong> for achieving the highest GPA in the graduating cohort and the Mexican Academy of Sciences Academic Excellence Scholarship.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Awards, Olympiad Medals & Technical Skills -->
+        <div id="awards" class="lg:col-span-5 space-y-6">
+          <div class="green-card p-6 sm:p-7">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Distinctions &amp; Competitions</span>
+            <h2 class="text-2xl font-bold mt-1 mb-4">Academic &amp; Olympiad Honours</h2>
+
+            <div class="space-y-3 text-sm">
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">Harrison Award</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">University of Warwick · Best Ph.D. Thesis</span>
+                </div>
+                <span class="badge-gold">2022</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">Alfonso Caso Medal</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">UNAM · M.Sc. GPA 10.0/10.0</span>
+                </div>
+                <span class="badge-gold">2017</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">Gabino Barreda Medal</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">UNAM · B.Sc. Highest Cohort GPA (9.87)</span>
+                </div>
+                <span class="badge-gold">2015</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">International Mathematical Olympiad (IMO)</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">Mar del Plata, Argentina</span>
+                </div>
+                <span class="badge-gold">Honourable Mention · 2012</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">Asian Pacific Mathematics Olympiad (APMO)</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">Japan</span>
+                </div>
+                <span class="badge-gold">Bronze Medal · 2012</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">American Mathematics Competitions (AMC)</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">United States</span>
+                </div>
+                <span class="badge-gold">Bronze Medal · 2012</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">National Physics Olympiad (ONF)</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">Mexico</span>
+                </div>
+                <span class="badge-gold">Bronze Medal · 2011</span>
+              </div>
+
+              <div class="green-tinted-box p-3.5 flex items-center justify-between gap-2">
+                <div>
+                  <strong class="block">Olimpiada Matemática Rioplatense (OMR)</strong>
+                  <span class="text-xs" style="color: var(--text-muted);">Argentina</span>
+                </div>
+                <span class="badge-gold">Bronze Medal · 2007</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Technical Skills & Languages -->
+          <div class="green-card p-6 sm:p-7 space-y-4">
+            <h3 class="text-xl font-bold">Skills &amp; Languages</h3>
+            <div class="space-y-3 text-sm">
+              <div>
+                <span class="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Mathematics &amp; Statistics</span>
+                <p class="mt-0.5" style="color: var(--text-muted);">
+                  Lévy processes, semimartingales, stochastic calculus, Monte Carlo simulation, rough paths, machine learning, Bayesian non-parametrics, time series, multivariate analysis.
+                </p>
+              </div>
+              <div>
+                <span class="block text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Quantitative Finance</span>
+                <p class="mt-0.5" style="color: var(--text-muted);">
+                  Fixed income markets, financial derivatives, barrier &amp; exotic option pricing, drawdown &amp; risk management.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="badge-emerald">Julia</span>
+                <span class="badge-emerald">R</span>
+                <span class="badge-emerald">Python</span>
+                <span class="badge-emerald">Java</span>
+                <span class="badge-emerald">Spanish (Native)</span>
+                <span class="badge-emerald">English (C1)</span>
+                <span class="badge-emerald">French (B2)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TALKS, SEMINARS & RESEARCH VISITS (With Collapsible Drop-Down Accordions & Tab Selector) -->
+    <section id="talks" class="pt-6 border-t-2 border-emerald-200 dark:border-emerald-800/70">
+      <div class="green-card p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-emerald-200/80 dark:border-emerald-800/60">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">International Dissemination (2019–2026)</span>
+            <h2 class="text-2xl sm:text-3xl font-bold mt-1">Conferences, Seminars &amp; Research Visits</h2>
+          </div>
+
+          <!-- Category Drop-Down / Switcher -->
+          <div class="flex items-center gap-2">
+            <label for="activityCategorySelect" class="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
+              View Category:
+            </label>
+            <select id="activityCategorySelect" onchange="switchActivityTab(this.value)" class="custom-select">
+              <option value="all">Show All (Conferences, Seminars &amp; Visits)</option>
+              <option value="conferences">International Conferences (14)</option>
+              <option value="seminars">Invited Seminars (15)</option>
+              <option value="visits">Research Visits (10)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          
+          <!-- Column 1: Conferences -->
+          <div id="activityColConferences" class="space-y-3">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+              <span>Conferences &amp; Workshops</span>
+              <span class="badge-emerald">14 talks</span>
+            </h3>
+
+            <details class="green-accordion text-sm" open>
+              <summary>
+                <span>2025 – 2026 Conferences</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>Jul 2026</strong> · <a href="https://probaframex26.sciencesconf.org" target="_blank" rel="noopener" class="underline" style="color: var(--primary);">II French-Mexican Workshop in Probability</a> (Guanajuato, Mexico)</li>
+                <li><strong>Apr 2026</strong> · <a href="https://math.mit.edu/~rigollet/mfai/" target="_blank" rel="noopener" class="underline" style="color: var(--primary);">Mathematical Foundations of Artificial Intelligence</a> (CDMX, Mexico)</li>
+                <li><strong>Dec 2025</strong> · <a href="https://www.cmstatistics.org/CFECMStatistics2025" target="_blank" rel="noopener" class="underline" style="color: var(--primary);">19th CFE-CMStatistics</a> (London, UK)</li>
+                <li><strong>Jan 2025</strong> · <a href="https://proyectos.matem.unam.mx/marie2025/program" target="_blank" rel="noopener" class="underline" style="color: var(--primary);">Cambiando los tiempos: Conference in Honor of María Emilia Caballero</a> (Mérida, Mexico)</li>
+              </ul>
+            </details>
+
+            <details class="green-accordion text-sm" open>
+              <summary>
+                <span>2023 – 2024 Conferences</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>Oct 2024</strong> · Escuela de Estadística Matemática y Ciencia de Datos (IIMAS–UNAM, Mexico)</li>
+                <li><strong>Apr 2024</strong> · <a href="https://www.newton.ac.uk/event/tml/" target="_blank" rel="noopener" class="underline" style="color: var(--primary);">Heavy Tails in Machine Learning Programme</a> (Isaac Newton Institute, London, UK)</li>
+                <li><strong>Jul 2023</strong> · 43rd Conference on Stochastic Processes and their Applications (SPA 2023, Lisbon, Portugal)</li>
+                <li><strong>Jun 2023</strong> · 21st INFORMS Applied Probability Society Conference (Nancy, France)</li>
+                <li><strong>Jun 2023</strong> · Journées de Probabilités (Angers, France)</li>
+              </ul>
+            </details>
+
+            <details class="green-accordion text-sm">
+              <summary>
+                <span>2019 – 2022 Conferences</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>Aug 2022</strong> · X Escuela de Probabilidad y Procesos Estocásticos (CDMX, Mexico)</li>
+                <li><strong>Jul 2022</strong> · 10th International Conference on Lévy Processes (Mannheim, Germany)</li>
+                <li><strong>Jun 2022</strong> · IMS Annual Meeting 2022 (London, UK)</li>
+                <li><strong>Apr 2022</strong> · Optimal Control and Fractional Dynamics Workshop (Isaac Newton Institute, Cambridge, UK)</li>
+                <li><strong>Jul 2021</strong> · Bernoulli-IMS 10th World Congress in Probability and Statistics (Seoul, South Korea)</li>
+                <li><strong>Dec 2019</strong> · XV Latin American Congress of Probability and Mathematical Statistics (CLAPEM XV, Mérida, Mexico)</li>
+              </ul>
+            </details>
+          </div>
+
+          <!-- Column 2: Seminars -->
+          <div id="activityColSeminars" class="space-y-3">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+              <span>Invited Seminars</span>
+              <span class="badge-emerald">15 seminars</span>
+            </h3>
+
+            <details class="green-accordion text-sm" open>
+              <summary>
+                <span>2024 – 2026 Seminars</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>2026</strong> · Séminaire Probabilités, Physique Mathématique et Analyse (Université d'Angers, France)</li>
+                <li><strong>2026</strong> · Seminar of the Institute for Financial and Actuarial Mathematics (University of Liverpool, UK)</li>
+                <li><strong>2025</strong> · Seminario de Probabilidad (CIMAT Guanajuato, Mexico)</li>
+                <li><strong>2025</strong> · Seminario de Probabilidad Aplicada (CIMAT Aguascalientes, Mexico)</li>
+                <li><strong>2025</strong> · IFAM Seminar (University of Liverpool, UK)</li>
+                <li><strong>2024</strong> · Probability and Mathematical Finance Seminar (Ritsumeikan University, Japan)</li>
+                <li><strong>2024</strong> · Seminario de Probabilidad y Procesos Estocásticos (UNAM, Mexico)</li>
+              </ul>
+            </details>
+
+            <details class="green-accordion text-sm" open>
+              <summary>
+                <span>2019 – 2023 Seminars</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>2023</strong> · Seminario del Departamento de Probabilidad y Estadística (IIMAS–UNAM, Mexico)</li>
+                <li><strong>2022</strong> · Seminario Aleatorio (ITAM, Mexico)</li>
+                <li><strong>2021</strong> · Probability and Mathematical Finance Seminar (Ritsumeikan University, Japan)</li>
+                <li><strong>2020</strong> · Stochastics Seminar (Aarhus University, Denmark)</li>
+                <li><strong>2020</strong> · Stochastic Finance at Warwick Seminar (University of Warwick, UK)</li>
+                <li><strong>2019</strong> · Probability and Mathematical Finance Seminar (Ritsumeikan University, Japan)</li>
+              </ul>
+            </details>
+          </div>
+
+          <!-- Column 3: Research Visits -->
+          <div id="activityColVisits" class="space-y-3">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+              <span>Research Visits</span>
+              <span class="badge-emerald">10 visits</span>
+            </h3>
+
+            <details class="green-accordion text-sm" open>
+              <summary>
+                <span>2024 – 2026 Research Stays</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>Jan 2026</strong> · University of Warwick (UK)</li>
+                <li><strong>Jan 2026</strong> · Université d'Angers (Angers, France)</li>
+                <li><strong>Oct 2025</strong> · CIMAT (Guanajuato, Mexico)</li>
+                <li><strong>Jun 2025</strong> · University of Warwick (UK)</li>
+                <li><strong>Jun 2025</strong> · Université d'Angers (Angers, France)</li>
+                <li><strong>May 2025</strong> · Aarhus Universitet (Aarhus, Denmark)</li>
+                <li><strong>Dec 2024</strong> · Ritsumeikan University (Kusatsu, Japan)</li>
+              </ul>
+            </details>
+
+            <details class="green-accordion text-sm" open>
+              <summary>
+                <span>2019 – 2023 Research Stays</span>
+                <svg class="chevron w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <ul class="p-3.5 space-y-2.5 text-xs sm:text-sm border-t border-emerald-200/60">
+                <li><strong>Jun 2023</strong> · Université d'Angers (Angers, France)</li>
+                <li><strong>Feb 2020</strong> · Aarhus Universitet (Aarhus, Denmark)</li>
+                <li><strong>Apr 2019</strong> · Ritsumeikan University (Kusatsu, Japan)</li>
+              </ul>
+            </details>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- TEACHING, DIPLOMADOS & ACADEMIC SERVICE SECTION -->
+    <section id="teaching" class="pt-6 border-t-2 border-emerald-200 dark:border-emerald-800/70">
+      <div class="green-card p-6 sm:p-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">UNAM Graduate &amp; Undergraduate Programs</span>
+        <h2 class="text-2xl sm:text-3xl font-bold mt-1 mb-6">Teaching, Diplomados &amp; Supervision</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Courses Taught -->
+          <div class="green-tinted-box p-5 space-y-3">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300">Courses at UNAM</h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm">
+              <li><span class="badge-emerald mr-1">2027-I</span> <strong>Stochastic Processes</strong> (Posgrado en Ciencias Matemáticas, UNAM)</li>
+              <li><span class="badge-emerald mr-1">2026-II</span> <strong>Probability</strong> (Posgrado en Ciencias Matemáticas, UNAM)</li>
+              <li><span class="badge-emerald mr-1">2026-I</span> <strong>Seminar on Stochastic Stability &amp; Convergence of Markov Processes</strong> (Posgrado UNAM)</li>
+              <li><span class="badge-emerald mr-1">2025-II</span> <strong>Bayesian Inference &amp; Stochastic Simulation</strong> (Posgrado UNAM)</li>
+              <li><span class="badge-emerald mr-1">2025-I</span> <strong>Financial Mathematics &amp; Continuous-Time Derivatives</strong> (Posgrado UNAM)</li>
+              <li><span class="badge-emerald mr-1">2024-II</span> <strong>Stochastic Simulation</strong> (Posgrado UNAM)</li>
+              <li><span class="badge-emerald mr-1">2024-I</span> <strong>Probability &amp; Statistics</strong> (Licenciatura en Ciencias Genómicas, UNAM)</li>
+            </ul>
+          </div>
+
+          <!-- Diplomados & Leadership -->
+          <div class="green-tinted-box p-5 space-y-3">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300">Leadership &amp; Diplomados</h3>
+            <ul class="space-y-3 text-xs sm:text-sm">
+              <li>
+                <strong class="block">Creator &amp; Academic Coordinator (IIMAS – FC UNAM, 2024–2026)</strong>
+                <span style="color: var(--text-muted);">
+                  Joint Data Science Diplomados: <em>“Métodos Estadísticos y Matemáticos para la Ciencia de Datos”</em> and <em>“Introducción Analítica a la Ciencia de Datos”</em>.
+                </span>
+              </li>
+              <li>
+                <strong class="block">Representative for Statistics (01/2026 – Present)</strong>
+                <span style="color: var(--text-muted);">Graduate Program in Mathematical Sciences (Posgrado en Ciencias Matemáticas, UNAM).</span>
+              </li>
+              <li>
+                <strong class="block">Seminar Organizer (08/2025 – Present)</strong>
+                <span style="color: var(--text-muted);">Probability and Stochastic Processes Seminar, IIMAS – UNAM.</span>
+              </li>
+              <li>
+                <strong class="block">Academic Committee Member (04/2024 – Present)</strong>
+                <span style="color: var(--text-muted);">B.Sc. in Actuarial Science Committee, UNAM.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Thesis Supervision & Jury -->
+          <div class="green-tinted-box p-5 space-y-3">
+            <h3 class="text-lg font-bold text-emerald-800 dark:text-emerald-300">Thesis Supervision &amp; Jury</h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm">
+              <li>
+                <span class="badge-gold">Advisor · 2025</span>
+                <strong class="block mt-1">Alejandra Guerrero Arelio (FC–UNAM)</strong>
+                <span style="color: var(--text-muted);"><em>“Análisis de la Divergencia Hockey-Stick entre cadenas de Markov”</em></span>
+              </li>
+              <li>
+                <span class="badge-emerald">Prize Jury · 2025</span>
+                <span class="block mt-0.5" style="color: var(--text-muted);">Judge for the <strong>Francisco Aranda Ordaz Award</strong> (Mexican Statistical Association).</span>
+              </li>
+              <li>
+                <span class="badge-emerald">Thesis Examiner · 2017–2024</span>
+                <span class="block mt-0.5" style="color: var(--text-muted);">
+                  Examiner for graduate and undergraduate theses on stable local times &amp; driftless SDEs (A. Santoyo Cano, 2024), Hamiltonian Monte Carlo (S. I. Cano Paez, 2024), exotic option pricing via Monte Carlo (I. M. Ramírez Bañales, 2018), and tempered stable processes (C. Esquivel Hernández, 2017).
+                </span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- EMBEDDED YOUTUBE VIDEO MODAL -->
+  <div id="videoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onclick="closeVideoModal(event)">
+    <div class="green-card max-w-3xl w-full overflow-hidden border-2 border-emerald-500" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between px-5 py-3.5 bg-emerald-950 text-white">
+        <h3 id="modalVideoTitle" class="font-bold text-sm sm:text-base truncate pr-4">Research Talk Preview</h3>
+        <button type="button" onclick="closeVideoModal()" class="px-2.5 py-1 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-xs font-bold">
+          ✕ Close
+        </button>
+      </div>
+      <div class="aspect-video w-full bg-black">
+        <iframe id="modalVideoIframe" class="w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="px-5 py-3 flex items-center justify-between text-xs" style="background-color: var(--bg-tinted);">
+        <span>Coauthored research talk on the <strong>Prob-AM</strong> YouTube channel</span>
+        <a id="modalYoutubeDirectLink" href="#" target="_blank" rel="noopener" class="font-bold underline" style="color: var(--primary);">
+          Watch directly on YouTube ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-12 border-t-2 border-emerald-300/70 dark:border-emerald-800 py-8 px-4 sm:px-6" style="background-color: var(--bg-tinted);">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm" style="color: var(--text-muted);">
+      <div class="flex items-center gap-2.5">
+        <span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span>
+        <strong>Jorge I. González Cázares</strong>
+        <span>· IIMAS – Universidad Nacional Autónoma de México (UNAM)</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="mailto:jorge.gonzalez@sigma.iimas.unam.mx" class="font-semibold hover:underline" style="color: var(--primary);">
+          jorge.gonzalez@sigma.iimas.unam.mx
+        </a>
+        <a href="#main" class="btn-sage !py-1 !px-3 !text-xs">↑ Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT: KaTeX Rendering, Interactive Lévy Convex Minorant Plot, Drop-Down Filters & Modal -->
+  <script>
+    // 1. Render LaTeX Mathematics via KaTeX
+    function renderAllMath() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '\\[', right: '\\]', display: true }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAllMath();
+      drawLevyConvexMinorant();
+
+      // Enable click toggle on nav dropdown buttons for touch devices
+      document.querySelectorAll('.nav-dropdown > button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const parent = btn.parentElement;
+          const isOpen = parent.classList.contains('open');
+          document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+          if (!isOpen) parent.classList.add('open');
+        });
+      });
+
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.nav-dropdown').forEach(d => d.classList.remove('open'));
+      });
+    });
+
+    // Retry KaTeX rendering once scripts finish loading
+    window.addEventListener('load', renderAllMath);
+
+    // 2. Interactive SVG Simulation of a Jump Lévy Path and its Piecewise-Linear Convex Minorant
+    function drawLevyConvexMinorant() {
+      const svg = document.getElementById('levySvg');
+      if (!svg) return;
+
+      const N = 110;
+      const width = 360;
+      const height = 210;
+      const padX = 18;
+      const padY = 20;
+
+      // Simulate a Lévy jump process path X_t on [0, 1]
+      let x = new Array(N + 1).fill(0);
+      for (let i = 1; i <= N; i++) {
+        // Gaussian increment + occasional heavy-tailed jump
+        const gauss = (Math.random() + Math.random() + Math.random() - 1.5) * 0.9;
+        const jump = Math.random() < 0.09 ? (Math.random() - 0.48) * 5.2 : 0;
+        x[i] = x[i - 1] + gauss + jump;
+      }
+
+      const minVal = Math.min(...x);
+      const maxVal = Math.max(...x);
+      const span = Math.max(maxVal - minVal, 1e-3);
+
+      const toX = (i) => padX + (i / N) * (width - 2 * padX);
+      const toY = (val) => height - padY - ((val - minVal) / span) * (height - 2 * padY);
+
+      // Compute lower convex hull (Convex Minorant C_t) via Monotone Chain
+      const hullIndices = [];
+      for (let i = 0; i <= N; i++) {
+        while (hullIndices.length >= 2) {
+          const i1 = hullIndices[hullIndices.length - 2];
+          const i2 = hullIndices[hullIndices.length - 1];
+          const cross = (i2 - i1) * (x[i] - x[i1]) - (x[i2] - x[i1]) * (i - i1);
+          if (cross <= 0) {
+            hullIndices.pop();
+          } else {
+            break;
+          }
+        }
+        hullIndices.push(i);
+      }
+
+      // Find Supremum index
+      let supIdx = 0;
+      for (let i = 1; i <= N; i++) {
+        if (x[i] > x[supIdx]) supIdx = i;
+      }
+
+      // Build SVG elements
+      let pathPoints = x.map((v, i) => `${toX(i).toFixed(1)},${toY(v).toFixed(1)}`).join(' ');
+      let hullPoints = hullIndices.map(i => `${toX(i).toFixed(1)},${toY(x[i]).toFixed(1)}`).join(' ');
+
+      let verticesCircles = hullIndices.map(i =>
+        `<circle cx="${toX(i).toFixed(1)}" cy="${toY(x[i]).toFixed(1)}" r="2.8" fill="#fbbf24" stroke="#064e3b" stroke-width="1"/>`
+      ).join('');
+
+      svg.innerHTML = `
+        <!-- Subtle Coordinate Grid -->
+        <line x1="${padX}" y1="${height - padY}" x2="${width - padX}" y2="${height - padY}" stroke="#065f46" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="${padX}" y1="${padY}" x2="${padX}" y2="${height - padY}" stroke="#065f46" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- Shaded Epigraph between Path and Convex Minorant -->
+        <polygon points="${pathPoints} ${hullIndices.slice().reverse().map(i => `${toX(i).toFixed(1)},${toY(x[i]).toFixed(1)}`).join(' ')}" fill="rgba(82, 183, 136, 0.14)" />
+
+        <!-- Piecewise-Linear Convex Minorant C_t -->
+        <polyline fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-dasharray="5,2" points="${hullPoints}" />
+
+        <!-- Lévy Process Path X_t -->
+        <polyline fill="none" stroke="#6ee7b7" stroke-width="1.9" points="${pathPoints}" />
+
+        <!-- Stick-Breaking Vertices -->
+        ${verticesCircles}
+
+        <!-- Supremum Marker -->
+        <circle cx="${toX(supIdx).toFixed(1)}" cy="${toY(x[supIdx]).toFixed(1)}" r="4.5" fill="#fb7185" stroke="#ffffff" stroke-width="1.3"/>
+      `;
+    }
+
+    // 3. Topic Explorer Grid Filtering
+    function selectTopicFromGrid(topic) {
+      document.querySelectorAll('[data-topic-btn]').forEach(btn => {
+        btn.classList.toggle('active-topic', btn.getAttribute('data-topic-btn') === topic);
+      });
+
+      const pubTopicSelect = document.getElementById('pubTopicFilter');
+      if (pubTopicSelect) {
+        pubTopicSelect.value = topic;
+        filterPublications();
+      }
+
+      document.getElementById('research').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 4. Filter Publications by Drop-Down & Search
+    function setPubCategory(status) {
+      const statusSelect = document.getElementById('pubStatusFilter');
+      if (statusSelect) {
+        statusSelect.value = status;
+        filterPublications();
+      }
+    }
+
+    function filterPublications() {
+      const topic = document.getElementById('pubTopicFilter').value;
+      const status = document.getElementById('pubStatusFilter').value;
+      const query = document.getElementById('pubSearchInput').value.trim().toLowerCase();
+
+      document.querySelectorAll('.pub-item').forEach(item => {
+        const itemTopics = item.getAttribute('data-ptopic') || '';
+        const itemStatus = item.getAttribute('data-pstatus') || '';
+        const text = item.textContent.toLowerCase();
+
+        const matchesTopic = (topic === 'all') || itemTopics.includes(topic);
+        const matchesStatus = (status === 'all') || (itemStatus === status);
+        const matchesQuery = (!query) || text.includes(query);
+
+        item.style.display = (matchesTopic && matchesStatus && matchesQuery) ? '' : 'none';
+      });
+
+      document.getElementById('pubSectionPublished').style.display =
+        (status === 'all' || status === 'published') ? '' : 'none';
+      document.getElementById('pubSectionSubmitted').style.display =
+        (status === 'all' || status === 'submitted') ? '' : 'none';
+      document.getElementById('pubSectionProgress').style.display =
+        (status === 'all' || status === 'progress') ? '' : 'none';
+    }
+
+    // 5. Filter Videos by Topic & Speaker Drop-Downs
+    function filterVideosByDropdown(topic, speaker) {
+      document.getElementById('videoTopicSelect').value = topic;
+      document.getElementById('videoSpeakerSelect').value = speaker;
+      applyVideoFilters();
+    }
+
+    function applyVideoFilters() {
+      const topic = document.getElementById('videoTopicSelect').value;
+      const speaker = document.getElementById('videoSpeakerSelect').value;
+
+      document.querySelectorAll('.video-item').forEach(card => {
+        const cTopic = card.getAttribute('data-vtopic') || '';
+        const cSpeaker = card.getAttribute('data-vspeaker') || '';
+
+        const matchTopic = (topic === 'all') || (cTopic === topic);
+        const matchSpeaker = (speaker === 'all') || (cSpeaker === speaker);
+
+        card.style.display = (matchTopic && matchSpeaker) ? 'flex' : 'none';
+      });
+    }
+
+    // 6. Expand / Collapse All Video Proof Accordions
+    let allVideoAccordionsExpanded = false;
+    function toggleAllVideoAccordions() {
+      allVideoAccordionsExpanded = !allVideoAccordionsExpanded;
+      document.querySelectorAll('#videoCardsContainer details.green-accordion').forEach(acc => {
+        acc.open = allVideoAccordionsExpanded;
+      });
+      document.getElementById('toggleAccordionsText').textContent =
+        allVideoAccordionsExpanded ? 'Collapse All Proof Snippets' : 'Expand All Proof Snippets';
+      renderAllMath();
+    }
+
+    // 7. Switch Conferences / Seminars / Visits Category View
+    function switchActivityTab(category) {
+      const select = document.getElementById('activityCategorySelect');
+      if (select && select.value !== category) select.value = category;
+
+      const conf = document.getElementById('activityColConferences');
+      const sem = document.getElementById('activityColSeminars');
+      const vis = document.getElementById('activityColVisits');
+
+      conf.style.display = (category === 'all' || category === 'conferences') ? '' : 'none';
+      sem.style.display = (category === 'all' || category === 'seminars') ? '' : 'none';
+      vis.style.display = (category === 'all' || category === 'visits') ? '' : 'none';
+    }
+
+    // 8. Embedded YouTube Video Modal
+    function openVideoModal(videoId, title) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('modalVideoIframe');
+      const titleEl = document.getElementById('modalVideoTitle');
+      const directLink = document.getElementById('modalYoutubeDirectLink');
+
+      titleEl.textContent = title;
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      directLink.href = `http://www.youtube.com/watch?v=${videoId}`;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('modalVideoIframe');
+      iframe.src = '';
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // 9. Theme Switcher (Sage Light / Forest Dark)
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark-theme');
+      document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌿';
+      document.getElementById('themeLabel').textContent = isDark ? 'Sage Light' : 'Forest Dark';
+    }
+  </script>
+</body>
+</html>
